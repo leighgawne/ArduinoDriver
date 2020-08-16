@@ -191,6 +191,16 @@ namespace ArduinoDriver
         }
 
         /// <summary>
+        /// Sends a Neopixel Request to the Arduino.
+        /// </summary>
+        /// <param name="request">Neopixel Request</param>
+        /// <returns>The NeopixelResponse</returns>
+        public NeopixelResponse Send(NeopixelRequest request)
+        {
+            return (NeopixelResponse) InternalSend(request);
+        }
+
+        /// <summary>
         /// Disposes the ArduinoDriver instance.
         /// </summary>
         public void Dispose()

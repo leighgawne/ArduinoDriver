@@ -80,6 +80,8 @@
     <Compile Include="SerialProtocol\ErrorResponse.cs" />
     <Compile Include="SerialProtocol\HandShakeRequest.cs" />
     <Compile Include="SerialProtocol\HandShakeResponse.cs" />
+    <Compile Include="SerialProtocol\NeopixelRequest.cs" />
+    <Compile Include="SerialProtocol\NeopixelResponse.cs" />
     <Compile Include="SerialProtocol\NoToneRequest.cs" />
     <Compile Include="SerialProtocol\NoToneResponse.cs" />
     <Compile Include="SerialProtocol\PinMode.cs" />

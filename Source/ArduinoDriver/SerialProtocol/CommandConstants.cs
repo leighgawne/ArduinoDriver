@@ -32,5 +32,7 @@
         public const byte ShiftOutAck               = 0x14;
         public const byte ShiftIn                   = 0x15;
         public const byte ShiftInAck                = 0x16;
+        public const byte NeopixelIn                = 0x17;
+        public const byte NeopixelInAck             = 0x18;
     }
 }

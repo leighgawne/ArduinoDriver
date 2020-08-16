@@ -1,3 +1,19 @@
+#include <Adafruit_NeoPixel.h>
+
+// Which pin on the Arduino is connected to the NeoPixels?
+#define PIN        6 // On Trinket or Gemma, suggest changing this to 1
+
+// How many NeoPixels are attached to the Arduino?
+#define NUMPIXELS 8 // Popular NeoPixel ring size
+
+// When setting up the NeoPixel library, we tell it how many pixels,
+// and which pin to use to send signals. Note that for older NeoPixel
+// strips you might need to change the third parameter -- see the
+// strandtest example for more information on possible values.
+Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+
+#define DELAYVAL 500 // Time (in milliseconds) to pause between pixels
+
 /*
  *
  * ArduinoLibCSharp ArduinoDriver Serial Protocol - Arduino Listener.
@@ -41,6 +57,8 @@ const byte CMD_SHIFTOUT               = 0x13;
 const byte ACK_SHIFTOUT               = 0x14;
 const byte CMD_SHIFTIN                = 0x15;
 const byte ACK_SHIFTIN                = 0x16;
+const byte CMD_NEOPIXEL               = 0x17;
+const byte ACK_NEOPIXEL               = 0x18;
 
 byte data[64];
 byte commandByte, lengthByte, syncByte, fletcherByte1, fletcherByte2;
@@ -66,7 +84,14 @@ byte bitOrder;
 byte shiftOutValue;
 byte incoming;
 
+/* Neopixel */
+byte red;
+byte green;
+byte blue;
+
 void setup() {
+  pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
+  pixels.clear(); // Set all pixel colors to 'off' 
   Serial.begin(BAUD_RATE);
   while (!Serial) { ; }
 }
@@ -262,6 +287,25 @@ void loop() {
       Serial.write(incoming);
       Serial.flush();
       break;
+    case CMD_NEOPIXEL:
+      red = data[2];
+      green = data[3];
+      blue = data[4];
+    
+      for (int i=0; i < NUMPIXELS; i++) 
+      { 
+        pixels.setPixelColor(i, pixels.Color(red, green, blue));
+        pixels.show();
+      }
+
+      Serial.write(START_OF_RESPONSE_MARKER);
+      Serial.write(4);
+      Serial.write(ACK_NEOPIXEL);
+      Serial.write(red);
+      Serial.write(green);
+      Serial.write(blue);
+      Serial.flush(); 
+      break;
     default:
       WriteError();
       break;
@@ -294,4 +338,3 @@ unsigned int Fletcher16(byte data[], int count ) {
   }
   return (sum2 << 8) | sum1;
 }
-
