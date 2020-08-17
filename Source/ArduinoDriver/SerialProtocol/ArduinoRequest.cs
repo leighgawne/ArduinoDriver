@@ -16,7 +16,7 @@ namespace ArduinoDriver.SerialProtocol
 
         public override string ToString()
         {
-            return string.Format("{0} ({1})", GetType().FullName, 
+            return string.Format("{0}({1})", GetType().FullName, 
                 BitConverter.ToString(Bytes.ToArray()));
         }
     }

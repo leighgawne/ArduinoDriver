@@ -57,6 +57,10 @@ namespace ArduinoDriver.SerialProtocol
                 {
                     return new ShiftInResponse(bytes[1], bytes[2], (BitOrder)bytes[3], bytes[4]);
                 }
+                case CommandConstants.NeopixelInAck:
+                {
+                    return new NeopixelResponse(bytes[1], bytes[2], bytes[3]);
+                }
                 default:
                 {
                     throw new IOException(string.Format("Unexpected command byte in response: {0}!", commandByte));

@@ -174,14 +174,17 @@ namespace ArduinoDriver
             var retrieved = 0;
             var retryCount = 0;
 
-            while (retrieved < numberOfBytes && retryCount++ < 4)
+            while (retrieved < numberOfBytes && retryCount++ < 2)
+            {
                 retrieved += serialPort.Read(result, retrieved, numberOfBytes - retrieved);
+            }
 
             if (retrieved < numberOfBytes)
             {
                 logger.Info("Ended up reading short (expected {0} bytes, got only {1})...",
                     numberOfBytes, retrieved);
             }
+
             return result;
         }
     }
