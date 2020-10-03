@@ -57,9 +57,13 @@ namespace ArduinoDriver.SerialProtocol
                 {
                     return new ShiftInResponse(bytes[1], bytes[2], (BitOrder)bytes[3], bytes[4]);
                 }
-                case CommandConstants.NeopixelInAck:
+                case CommandConstants.NeopixelAck:
                 {
                     return new NeopixelResponse(bytes[1], bytes[2], bytes[3]);
+                }
+                case CommandConstants.NozzlePressureAck:
+                {
+                    return new NozzlePressureResponse(bytes[1], bytes[2], bytes[3], bytes[4]);
                 }
                 default:
                 {

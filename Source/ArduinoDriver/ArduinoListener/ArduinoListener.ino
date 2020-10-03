@@ -1,3 +1,4 @@
+#include <HX711.h>
 #include <Adafruit_NeoPixel.h>
 
 // Which pin on the Arduino is connected to the NeoPixels?
@@ -13,6 +14,10 @@
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
 #define DELAYVAL 500 // Time (in milliseconds) to pause between pixels
+
+// HX711 circuit wiring
+const int LOADCELL_DOUT_PIN = 2;
+const int LOADCELL_SCK_PIN = 3;
 
 /*
  *
@@ -59,6 +64,8 @@ const byte CMD_SHIFTIN                = 0x15;
 const byte ACK_SHIFTIN                = 0x16;
 const byte CMD_NEOPIXEL               = 0x17;
 const byte ACK_NEOPIXEL               = 0x18;
+const byte CMD_NOZZLEPRESSURE         = 0x19;
+const byte ACK_NOZZLEPRESSURE         = 0x1a;
 
 byte data[64];
 byte commandByte, lengthByte, syncByte, fletcherByte1, fletcherByte2;
@@ -89,9 +96,12 @@ byte red;
 byte green;
 byte blue;
 
+HX711 scale;
+
 void setup() {
   pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
   pixels.clear(); // Set all pixel colors to 'off' 
+  scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);  
   Serial.begin(BAUD_RATE);
   while (!Serial) { ; }
 }
@@ -305,6 +315,27 @@ void loop() {
       Serial.write(green);
       Serial.write(blue);
       Serial.flush(); 
+      break;
+    case CMD_NOZZLEPRESSURE:
+      Serial.write(START_OF_RESPONSE_MARKER);
+      
+      if (scale.is_ready()) 
+      {
+        long reading = scale.read();
+        Serial.write(5);
+        Serial.write(ACK_NOZZLEPRESSURE);
+        Serial.write((byte)reading);
+        Serial.write((byte)(reading >> 8));
+        Serial.write((byte)(reading >> 16));
+        Serial.write((byte)(reading >> 24));
+      } 
+      else 
+      {
+        Serial.write(1);
+        Serial.write(ACK_NOZZLEPRESSURE);
+      }      
+
+      Serial.flush();     
       break;
     default:
       WriteError();

@@ -201,6 +201,16 @@ namespace ArduinoDriver
         }
 
         /// <summary>
+        /// Sends a Nozzle Pressure Request to the Arduino.
+        /// </summary>
+        /// <param name="request">Nozzle Pressure Request</param>
+        /// <returns>The NozzlePressureResponse</returns>
+        public NozzlePressureResponse Send(NozzlePressureRequest request)
+        {
+            return (NozzlePressureResponse)InternalSend(request);
+        }
+
+        /// <summary>
         /// Disposes the ArduinoDriver instance.
         /// </summary>
         public void Dispose()

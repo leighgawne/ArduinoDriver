@@ -32,7 +32,9 @@
         public const byte ShiftOutAck               = 0x14;
         public const byte ShiftIn                   = 0x15;
         public const byte ShiftInAck                = 0x16;
-        public const byte NeopixelIn                = 0x17;
-        public const byte NeopixelInAck             = 0x18;
+        public const byte Neopixel                  = 0x17;
+        public const byte NeopixelAck               = 0x18;
+        public const byte NozzlePressure            = 0x19;
+        public const byte NozzlePressureAck         = 0x1A;
     }
 }

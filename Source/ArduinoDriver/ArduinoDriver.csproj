@@ -84,6 +84,8 @@
     <Compile Include="SerialProtocol\NeopixelResponse.cs" />
     <Compile Include="SerialProtocol\NoToneRequest.cs" />
     <Compile Include="SerialProtocol\NoToneResponse.cs" />
+    <Compile Include="SerialProtocol\NozzlePressureRequest.cs" />
+    <Compile Include="SerialProtocol\NozzlePressureResponse.cs" />
     <Compile Include="SerialProtocol\PinMode.cs" />
     <Compile Include="SerialProtocol\PinModeRequest.cs" />
     <Compile Include="SerialProtocol\PinModeResponse.cs" />
